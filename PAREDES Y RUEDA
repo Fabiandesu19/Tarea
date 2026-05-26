@@ -1,0 +1,70 @@
+package com.clase2605;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class Bingo {
+
+    public static void main(String[] args) {
+        int[][] bingo = new int[5][5];
+        boolean[][] marcado = new boolean[5][5];
+        generarNumeros(bingo);
+
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            mostrarTabla(bingo, marcado);
+
+            System.out.println("\nIngrese la fila (0-4): ");
+            int fila = sc.nextInt();
+
+            System.out.println("Ingrese la columna (0-4): ");
+            int columna = sc.nextInt();
+
+            if (fila < 0 || fila > 4 || columna < 0 || columna > 4) {
+                System.out.println("Posición invalida.");
+                continue;
+            }
+            marcado[fila][columna] = true;
+            System.out.println("\nNumero marcado correctamente.\n");
+        }
+    }
+
+    public static void generarNumeros(int[][] bingo) {
+
+        Random rand = new Random();
+        boolean[] usados = new boolean[26];
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+
+                int numero;
+
+                do {
+                    numero = rand.nextInt(25) + 1;
+                } while (usados[numero]);
+
+                usados[numero] = true;
+                bingo[i][j] = numero;
+            }
+        }
+    }
+
+    public static void mostrarTabla(int[][] bingo, boolean[][] marcado) {
+
+        System.out.println("\n===== TABLA BINGO =====");
+
+        for (int i = 0; i < 5; i++) {
+
+            for (int j = 0; j < 5; j++) {
+
+                if (marcado[i][j]) {
+                    System.out.print(" X ");
+                } else {
+                    System.out.printf("%2d ", bingo[i][j]);
+                }
+            }
+
+            System.out.println();
+        }
+    }
+}
